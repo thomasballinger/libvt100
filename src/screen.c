@@ -37,6 +37,7 @@ void vt100_screen_init(VT100Screen *vt)
 {
     vt->grid = calloc(1, sizeof(struct vt100_grid));
     vt->parser_state = calloc(1, sizeof(struct vt100_parser_state));
+    vt->scroll_offset = 0;
     vt100_parser_yylex_init_extra(vt, &vt->parser_state->scanner);
 }
 
@@ -579,6 +580,8 @@ void vt100_screen_scroll_up(VT100Screen *vt, int count)
     }
     else {
         int scrollback = vt->scrollback_length;
+        int scroll_offset = vt->scroll_offset;
+        vt->scroll_offset = scroll_offset + 1;
 
         if (vt->grid->row_count + count > scrollback) {
             int overflow = vt->grid->row_count + count - scrollback;

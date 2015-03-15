@@ -88,6 +88,7 @@ struct vt100_screen {
     struct vt100_cell_attrs attrs;
 
     int scrollback_length;
+    int scroll_offset;
 
     struct vt100_parser_state *parser_state;
 
